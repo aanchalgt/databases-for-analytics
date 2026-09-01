@@ -1,6 +1,6 @@
 # Exercise 01: World Database SQL Practice
 
-- Name:
+- Name:**Aanchal Gupta**
 - Course: Database for Analytics
 - Module: 1
 - Database Used: World Database
@@ -33,9 +33,11 @@ See:
 
 Why were these data types selected?
 
-### Answer
+### Answer 
+country.Population uses the INT data type because population is a count of people and therefore is represented as a whole number.
 
-_Write your explanation here._
+The country.LifeExpectancy column uses decimal(3,1) because life expectancy can contain fractional values, such as 72.5 years, and therefore requires a decimal value. 
+
 
 ### Screenshot
 
@@ -56,7 +58,9 @@ Why do you think this data type was selected?
 
 ### Answer
 
-_Write your explanation here._
+country.IndepYear uses the SMALLINT data type. 
+
+I think it was selected because years are whole numbers and SMALLINT provides enough range to store year values efficiently.
 
 ### Screenshot
 
@@ -75,7 +79,7 @@ Explain why your proposed data type might be better in some situations.
 
 ### Answer
 
-_Write your explanation here._
+I would use the **YEAR** data type because `IndepYear` represents a year. It can make the purpose of the column clearer and is useful when the values fall within MySQL’s supported `YEAR` range.
 
 ---
 
