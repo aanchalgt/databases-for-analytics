@@ -1,6 +1,6 @@
 # Exercise 02: World Database – Joins, Grouping, and Data Quality
 
-- Name:
+- Name: Aanchal Gupta
 - Course: Database for Analytics
 - Module: 2
 - Database Used: World Database (PostgreSQL)
@@ -24,14 +24,15 @@ When importing records from `worldPGSQL.sql`, **how many cities were imported**?
 
 ### Answer
 
-_Write the number of cities imported._
+4,079 cities were imported from worldPGSQL.sql.
 
 ### Screenshot
 
 _Show evidence of how you determined this (for example, a COUNT query)._
 
 ```sql
--- Your SQL here
+SELECT COUNT(*) AS city_count
+FROM city;
 ```
 
 ![Q1 Screenshot](screenshots/q1_city_count.png)
@@ -47,7 +48,11 @@ along with the **name of each language spoken in that country**.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT country.name AS country_name,
+       countrylanguage.language
+FROM country
+JOIN countrylanguage
+ON country.code = countrylanguage.countrycode;
 ```
 
 ### Screenshot
@@ -65,7 +70,12 @@ of each **official language spoken in that country**.
 ### SQL
 
 ```sql
--- Your SQL here
+-- SELECT country.name AS country_name,
+       countrylanguage.language
+FROM country
+JOIN countrylanguage
+ON country.code = countrylanguage.countrycode
+WHERE countrylanguage.isofficial = 'T';
 ```
 
 ### Screenshot
@@ -96,7 +106,8 @@ ON country.code = countrylanguage.countrycode;
 
 ### Answer
 
-_Write your explanation here._
+The second query also includes countries that do not have any matching language records. The first query only shows countries that have a matching language in the 'countrylanguage' table.
+
 
 ---
 
@@ -109,12 +120,13 @@ Do **not** repeat any form of government more than once.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT DISTINCT governmentform
+FROM country;
 ```
 
 ### Screenshot
 
-![Q5 Screenshot](screenshots/q5_government_forms.png)
+![Q5 Screenshot](screenshots/q5e2_government_forms.png)
 
 ---
 
@@ -127,7 +139,13 @@ Label the column **"City or Country Name"**.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT name AS "City or Country Name"
+FROM city
+
+UNION
+
+SELECT name
+FROM country;
 ```
 
 ### Screenshot
@@ -146,7 +164,13 @@ Be sure to **sort by country name**.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT country.name AS country_name,
+       COUNT(countrylanguage.language) AS number_of_languages
+FROM country
+LEFT JOIN countrylanguage
+ON country.code = countrylanguage.countrycode
+GROUP BY country.name
+ORDER BY country.name;
 ```
 
 ### Screenshot
@@ -165,7 +189,11 @@ Be sure to **sort by language name**.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT language,
+       COUNT(countrycode) AS number_of_countries
+FROM countrylanguage
+GROUP BY language
+ORDER BY language;
 ```
 
 ### Screenshot
@@ -185,7 +213,15 @@ _Hint: There are 8 such countries in this dataset._
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT country.name AS country_name,
+       COUNT(countrylanguage.language) AS number_of_official_languages
+FROM country
+JOIN countrylanguage
+ON country.code = countrylanguage.countrycode
+WHERE countrylanguage.isofficial = 'T'
+GROUP BY country.name
+HAVING COUNT(countrylanguage.language) > 2
+ORDER BY country.name;
 ```
 
 ### Screenshot
@@ -205,7 +241,9 @@ since some rows use that instead of actual data.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT *
+FROM city
+WHERE TRIM(district) LIKE '–';
 ```
 
 ### Screenshot
@@ -224,7 +262,14 @@ _Hint: The result should be approximately 0.4%._
 ### SQL
 
 ```sql
--- Your SQL here
+
+SELECT
+    ROUND(
+        COUNT(*) FILTER (WHERE TRIM(district) LIKE CHR(8211))
+        * 100.0 / COUNT(*),
+        1
+    ) AS percentage_missing_district
+FROM city;
 ```
 
 ### Screenshot
