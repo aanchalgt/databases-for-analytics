@@ -34,7 +34,16 @@ along with the **number of official languages spoken**.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT
+    c.name AS country_name,
+    COUNT(cl.language) AS official_language_count
+FROM country AS c
+JOIN countrylanguage AS cl
+    ON c.code = cl.countrycode
+WHERE cl.isofficial = 'T'
+GROUP BY c.code, c.name
+HAVING COUNT(cl.language) > 2
+ORDER BY official_language_count DESC;
 ```
 
 ### Screenshot
@@ -56,7 +65,25 @@ execute the query from Question 1 and
 ### Python Code
 
 ```python
-# Your three Python statements here
+# Statement 1: Define the SQL query
+query = """
+SELECT
+    c.name AS country_name,
+    COUNT(cl.language) AS official_language_count
+FROM country AS c
+JOIN countrylanguage AS cl
+    ON c.code = cl.countrycode
+WHERE cl.isofficial = 'T'
+GROUP BY c.code, c.name
+HAVING COUNT(cl.language) > 2
+ORDER BY official_language_count DESC;
+"""
+
+# Statement 2: Execute the query
+df = pd.read_sql_query(query, engine)
+
+# Statement 3: Display the results
+display(df)
 ```
 
 ### Screenshot
