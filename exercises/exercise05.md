@@ -106,7 +106,7 @@ WHERE sent_date IS NOT NULL
 
 ### Screenshot
 
-![Q3 Screenshot](screenshots/q3_sent_opened_interval.png)
+![Q3 Screenshot](screenshots/q3_sent_opened_interval_ex5.png)
 
 ---
 
@@ -282,7 +282,19 @@ Reference image:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT row_to_json(dealership_salespeople)
+FROM (
+    SELECT
+        s.dealership_id,
+        d.state,
+        COUNT(*) AS num_salespeople,
+        ARRAY_AGG(s.last_name || ',' || s.first_name) AS array_agg
+    FROM salespeople s
+    JOIN dealerships d
+        ON s.dealership_id = d.dealership_id
+    GROUP BY s.dealership_id, d.state
+    ORDER BY d.state
+) AS dealership_salespeople;
 ```
 
 ### Screenshot
