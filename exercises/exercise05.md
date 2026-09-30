@@ -43,7 +43,9 @@ year
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT DISTINCT EXTRACT(YEAR FROM sent_date) AS year
+FROM emails
+ORDER BY year;
 ```
 
 ### Screenshot
@@ -68,7 +70,11 @@ count   year
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT COUNT(*) AS count,
+       EXTRACT(YEAR FROM sent_date) AS year
+FROM emails
+GROUP BY EXTRACT(YEAR FROM sent_date)
+ORDER BY year;
 ```
 
 ### Screenshot
@@ -90,7 +96,12 @@ Only include emails that contain **both** a sent date and an opened date.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT sent_date,
+       opened_date,
+       opened_date - sent_date AS interval
+FROM emails
+WHERE sent_date IS NOT NULL
+  AND opened_date IS NOT NULL;
 ```
 
 ### Screenshot
@@ -127,7 +138,7 @@ After looking at the data, **why is this the case?**
 
 ### Answer
 
-_Write your explanation here._
+The 109 records have a sent_date time of exactly 15:00:00, which suggests a default time may have been assigned during data import or cleanup. Since the opened_date contains the actual opening time, some emails incorrectly appear to have been opened before they were sent.
 
 ### Screenshot (if requested by instructor)
 
@@ -168,7 +179,7 @@ CREATE TEMP TABLE customer_dealership_distance AS (
 
 ### Answer
 
-_Write your explanation here._
+It creates the temporary tables containing the geographic locations of customers and dealerships using their longitude and latitude. Then it compares every customer to every dealership and calculates the distance between their locations.
 
 ---
 
@@ -188,7 +199,11 @@ For example - dealership 1 is below:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT dealership_id,
+       ARRAY_AGG(last_name || ',' || first_name) AS salespeople
+FROM salespeople
+GROUP BY dealership_id
+ORDER BY dealership_id;
 ```
 
 ### Screenshot
@@ -214,7 +229,16 @@ Reference image:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT
+    s.dealership_id,
+    d.state,
+    COUNT(*) AS count,
+    ARRAY_AGG(s.last_name || ',' || s.first_name) AS salespeople
+FROM salespeople s
+JOIN dealerships d
+    ON s.dealership_id = d.dealership_id
+GROUP BY s.dealership_id, d.state
+ORDER BY d.state;
 ```
 
 ### Screenshot
