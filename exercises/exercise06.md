@@ -2,7 +2,7 @@
 
 From the Operational Model to the Dimensional Model
 
-- Name:
+- Name: Aanchal Gupta
 - Course: Database for Analytics
 - Module: 6
 
@@ -125,4 +125,14 @@ In 1-2 short paragraphs, explain:
 
 #### Design Notes
 
-_Write your design notes here._
+I used Date, Customer, and Part dimensions because each one provides a different way to analyze the daily sales data. 
+
+Dim_Date includes month, quarter, and year for time-based analysis, Dim_Customer includes customer and ZIP code information for analyzing where revenue comes from, and Dim_Part includes the part number and category for comparing product sales.
+
+I left out order, sales representative, and inventory information because those areas are not needed for the requested analysis.
+
+
+I designed Fact_Daily_Sales so each row summarizes sales for a specific date, customer, and part, instead of keeping individual order details. 
+
+The quantity and amount fields can then be aggregated for different questions. 
+For example, the model can calculate average daily sales during the third quarter, revenue from customers in ZIP code 64468 during September, and average daily quantity sold for part ax12 during September 1994.
