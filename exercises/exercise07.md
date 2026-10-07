@@ -53,7 +53,7 @@ FROM payer_transitions;
 
 ![1 Screenshot](screenshots/1_table_row_counts.png)
 
-![2 Screenshot](screenshots/1_column_counts.png)
+![2 Screenshot](screenshots/2_column_counts.png)
 
 ## Viewing the Imported Data
 
@@ -67,7 +67,7 @@ FROM patients
 LIMIT 10;
 ```
 
-![Patients table](screeenshots/3_patients_data.png)
+![Patients table](screenshots/3_patients_data.png)
 
 ### Imaging Studies
 
