@@ -2,7 +2,7 @@
 
 - Name: Aanchal Gupta
 - Course: Database for Analytics
-- Module: 6
+- Module: 7
 
 ## Project Overview
 
